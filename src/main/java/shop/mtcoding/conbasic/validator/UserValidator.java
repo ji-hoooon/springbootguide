@@ -6,10 +6,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import shop.mtcoding.conbasic.dto.LoginReqDto;
 
-@Configuration
-public class UserValidation implements Validator {
-
-
+public class UserValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
         return LoginReqDto.class.isAssignableFrom(clazz);
