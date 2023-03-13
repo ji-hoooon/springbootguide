@@ -3,6 +3,8 @@ package shop.mtcoding.conbasic.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -25,10 +27,9 @@ public class LoginController {
     private UserValidator userValidator;
 
     @PostMapping("/login")
-    public String login(@RequestBody @Validated LoginReqDto loginReqDto, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<String> login(@RequestBody @Validated LoginReqDto loginReqDto, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
         System.out.println("loginReqDto = " + loginReqDto);
         userValidator.validate(loginReqDto, bindingResult);
-
         if (bindingResult.hasErrors()) {
             List<FieldError> errors = bindingResult.getFieldErrors();
             for (FieldError error : errors) {
@@ -36,16 +37,17 @@ public class LoginController {
                 String errorMessage = error.getDefaultMessage();
                 if (fieldName.equals("userName")) {
                     errorMessage = messageSource.getMessage(error, LocaleContextHolder.getLocale());
-                    return errorMessage;
+                    return ResponseEntity.ok(errorMessage);
                 } else if (fieldName.equals("password")) {
                     errorMessage = messageSource.getMessage(error, LocaleContextHolder.getLocale());
-                    return errorMessage;
+                    return ResponseEntity.ok(errorMessage);
                 } else {
 
                 }
             }
         }
 
-        return loginReqDto.toString();
+        String answer=loginReqDto.getUserName()+"님 안녕하세요";
+        return ResponseEntity.ok(answer);
     }
 }
