@@ -29,7 +29,7 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Validated LoginReqDto loginReqDto, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
         System.out.println("loginReqDto = " + loginReqDto);
-        userValidator.validate(loginReqDto, bindingResult)
+        userValidator.validate(loginReqDto, bindingResult);
         if (bindingResult.hasErrors()) {
             List<FieldError> errors = bindingResult.getFieldErrors();
             for (FieldError error : errors) {
